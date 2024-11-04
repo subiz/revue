@@ -32,11 +32,16 @@ export function Convert(Class) {
 		data() {
 			com = new Class()
 			com._base_this = this
+
+			if (typeof com.data === 'function') {
+				com.state = com.data()
+			}
 			return com.state || {}
 		},
 
 		created() {
 			com.forceUpdate = () => this.$forceUpdate()
+			com.$forceUpdate = () => this.$forceUpdate()
 			if (com.name) this.name = com.name
 			com.$once = this.$once.bind(this)
 			com.$emit = () => this.$emit.bind(this)

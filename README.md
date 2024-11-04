@@ -191,12 +191,12 @@ export default Vue(Com)
 - [x] state
 - [x] prop
 - [x] mounted
-- [x] forceUpdate
+- [x] forceUpdate, $forceUpdate
 - [x] beforeDestroy
 - [x] created
 - [x] $once
 - [x] $emit
-- [ ] data
+- [X] data
 - [x] name
 - [x] watch
 - [x] ref
@@ -207,7 +207,7 @@ export default Vue(Com)
 - [x] state
 - [x] prop
 - [x] mounted
-- [x] forceUpdate
+- [x] forceUpdate, $forceUpdate
 - [x] beforeDestroy
 - [x] created
 - [x] $once
