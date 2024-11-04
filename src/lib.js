@@ -19,7 +19,6 @@ export function createRef(obj) {
 }
 
 export function Convert(Class) {
-	let com
 	let props = []
 	lo.map(Class.defaultProps, (v, k) => {
 		props.push(k)
@@ -30,26 +29,26 @@ export function Convert(Class) {
 		props: props,
 		name: Class.name,
 		data() {
-			com = new Class()
-			com._base_this = this
+			this.__com = new Class()
+			this.__com._base_this = this
 
-			if (typeof com.data === 'function') {
-				com.state = com.data()
+			if (typeof this.__com.data === 'function') {
+				this.__com.state = this.__com.data()
 			}
-			return com.state || {}
+			return this.__com.state || {}
 		},
 
 		created() {
-			com.forceUpdate = () => this.$forceUpdate()
-			com.$forceUpdate = () => this.$forceUpdate()
-			if (com.name) this.name = com.name
-			com.$once = this.$once.bind(this)
-			com.$emit = () => this.$emit.bind(this)
+			this.__com.forceUpdate = () => this.$forceUpdate()
+			this.__com.$forceUpdate = () => this.$forceUpdate()
+			if (this.__com.name) this.name = this.__com.name
+			this.__com.$once = this.$once.bind(this)
+			this.__com.$emit = () => this.$emit.bind(this)
 			// created lifecycle
-			if (com.created) com.created()
-
-			com.$createElement = this.$createElement
-			com.props = new Proxy(this._props, {
+			if (this.__com.created) this.__com.created()
+			this.__com.$nextTick = this.$nextTick.bind(this)
+			this.__com.$createElement = this.$createElement
+			this.__com.props = new Proxy(this._props, {
 				get(target, prop, receiver) {
 					if (props.length > 2 && prop.startsWith('on')) {
 						let first = prop.charAt(2).toLowerCase()
@@ -60,30 +59,31 @@ export function Convert(Class) {
 				},
 			})
 			var vuethis = this
-			com.setState = function (val) {
+			this.__com.setState = function (val, cb) {
 				lo.map(val, (v, k) => {
-					com.state[k] = v
+					vuethis.__com.state[k] = v
 					// vuethis.$set(vuethis, k, v)
 					// vuethis[k] = v;
 				})
-				com.state = vuethis._data
+				vuethis.__com.state = vuethis._data
+				this.$nextTick(cb)
 			}
 		},
 
 		mounted() {
 			// mounted lifecycle
-			if (com.mounted) com.mounted()
-			if (com.componentDidMount) com.componentDidMount()
+			if (this.__com.mounted) this.__com.mounted()
+			if (this.__com.componentDidMount) this.__com.componentDidMount()
 		},
 
 		beforeDestroy() {
 			// beforeDestroy lifecycle
-			if (com.beforeDestroy) com.beforeDestroy()
-			if (com.componentWillUnmount) com.componentWillUnmount()
+			if (this.__com.beforeDestroy) this.__com.beforeDestroy()
+			if (this.__com.componentWillUnmount) this.__com.componentWillUnmount()
 		},
 
 		render() {
-			return com.render(this.$createElement)
+			return this.__com.render(this.$createElement)
 		},
 	}
 	return vueobj
