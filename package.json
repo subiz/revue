@@ -1,6 +1,6 @@
 {
   "name": "@subiz/revue",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "src/lib.js",
   "scripts": {
     "dev": "webpack serve --mode=development",

@@ -2,6 +2,7 @@ import lo from 'lodash'
 
 import {css, Convert, createRef, getRef, setEnvWeb} from './lib.js'
 import Div from './components/Div/index.js'
+import Span from './components/Span/index.js'
 
 import SubCom from './example_sub.js'
 
@@ -38,11 +39,11 @@ class Com {
 	}
 
 	method1(a, b) {
-		console.log('METHOD 1', a, b)
+		console.log('METHOD 1------', a, b)
 	}
 
 	renderSub() {
-		return <div>Sub</div>
+		return <Span>Sub</Span>
 	}
 
 	onInput = (e) => {
@@ -50,6 +51,7 @@ class Com {
 	}
 
 	renderInput() {
+		this.method1('5', 5)
 		return <input ref={getRef(this.inputRef)} value={this.state.val} onInput={this.onInput} />
 	}
 
@@ -61,18 +63,8 @@ class Com {
 		// let h = this.$createElement;
 		console.log('RENDER com:', this.onClick)
 		return (
-			<Div
-				hover_style={{background: 'pink', color: 'yellow'}}
-				onMouseover={(e) => console.log(e)}
-				style={{fontWeight: 'bold'}}
-				data-id='kk'
-			>
-				22222222
-			</Div>
-		)
-		return (
 			<Div>
-				<p></p>
+				{this.renderSub()}
 				<h1 data-id='kk' style='font-weight: bold'>
 					22222222 {this.state.val}
 				</h1>
