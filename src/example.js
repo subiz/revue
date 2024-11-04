@@ -1,5 +1,8 @@
 import lo from 'lodash'
-import {css, Convert, createRef, getRef} from './lib.js'
+
+import {css, Convert, createRef, getRef, setEnvWeb} from './lib.js'
+import Div from './components/Div/index.js'
+
 import SubCom from './example_sub.js'
 
 class Com {
@@ -23,6 +26,7 @@ class Com {
 			this.setState({display: true})
 		}, 500)
 		setTimeout(() => {
+			return
 			this.inputRef.current.focus()
 			// this.$refs["thanh"].focus()
 		}, 1000)
@@ -46,7 +50,6 @@ class Com {
 	}
 
 	renderInput() {
-		if (!this.state.display) return null
 		return <input ref={getRef(this.inputRef)} value={this.state.val} onInput={this.onInput} />
 	}
 
@@ -58,7 +61,7 @@ class Com {
 		// let h = this.$createElement;
 		console.log('RENDER com:', this.onClick)
 		return (
-			<div>
+			<Div>
 				<p></p>
 				<h1>22222222 {this.state.val}</h1>
 				{this.renderInput()}
@@ -68,7 +71,7 @@ class Com {
 					ob={{fullname: this.state.val}}
 					onDoubleClick={this.onClick}
 				/>
-			</div>
+			</Div>
 		)
 	}
 }
@@ -86,25 +89,3 @@ let style = {
 	},
 }
 export default Convert(Com)
-
-/*
-export default {
-  created() {
-    com.$createElement = this.$createElement;
-  },
-  methods: {
-    renderA() {
-      return <div>AA</div>;
-    },
-  },
-  render() {
-    return (
-      <div>
-        {this.renderA()}
-        thanh{com.render(this.$createElement)}
-        <div>--------------</div>
-      </div>
-    );
-  },
-};
-*/

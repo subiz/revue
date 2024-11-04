@@ -1,5 +1,7 @@
 import lo from 'lodash'
 
+let g_env = ''
+
 export const getRef = (ref) => ref.toString()
 
 export function createRef(obj) {
@@ -19,6 +21,11 @@ export function createRef(obj) {
 }
 
 export function Convert(Class) {
+	console.log('KKKKKKKKKKKKKKKKK', isWeb())
+	if (isWeb()) return ConvertWeb(Class)
+}
+
+export function ConvertWeb(Class) {
 	let props = []
 	lo.map(Class.defaultProps, (v, k) => {
 		props.push(k)
@@ -48,9 +55,11 @@ export function Convert(Class) {
 			if (this.__com.created) this.__com.created()
 			this.__com.$nextTick = this.$nextTick.bind(this)
 			this.__com.$createElement = this.$createElement
+			var vuethis = this
 			this.__com.props = new Proxy(this._props, {
 				get(target, prop, receiver) {
-					if (props.length > 2 && prop.startsWith('on')) {
+					if (prop == 'children') return vuethis.$slots.default
+					if (prop.length > 2 && prop.startsWith('on')) {
 						let first = prop.charAt(2).toLowerCase()
 						return vuethis._events[first + prop.substr(3)][0]
 					}
@@ -58,7 +67,6 @@ export function Convert(Class) {
 					return Reflect.get(...arguments)
 				},
 			})
-			var vuethis = this
 			this.__com.setState = function (val, cb) {
 				lo.map(val, (v, k) => {
 					vuethis.__com.state[k] = v
@@ -94,4 +102,18 @@ function guidGenerator() {
 		return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
 	}
 	return S4() + S4() + '-' + S4() + '-' + S4() + '-' + S4() + '-' + S4() + S4() + S4()
+}
+
+export function setEnvWeb() {
+	console.log('SEEEEEEEEEETTTTTTTTT web')
+	g_env = 'web'
+}
+
+export function setEnvMobile() {
+	g_env = 'mobile'
+}
+
+export function isWeb() {
+	return true
+	return g_env == 'web'
 }
