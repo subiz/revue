@@ -18,7 +18,7 @@ export function createRef(obj) {
   return ref;
 }
 
-export function Vue(Class) {
+export function Convert(Class) {
   let com;
   let props = [];
   lo.map(Class.defaultProps, (v, k) => {
@@ -26,7 +26,9 @@ export function Vue(Class) {
   });
 
   let vueobj = {
+    watch: Object.assign({}, Class.watch),
     props: props,
+    name: Class.name,
     data() {
       com = new Class();
       com._base_this = this;

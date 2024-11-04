@@ -1,4 +1,5 @@
 # Revue
+Cross platform component, works both on React Native and web
 
 * Convert a component to **Vue 2** component
 * Convert a component to **React** component

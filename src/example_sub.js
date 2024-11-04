@@ -1,39 +1,41 @@
 import lo from "lodash";
-import { Vue, createRef, getRef } from "./lib.js";
+import { Convert, createRef, getRef } from "./lib.js";
 
 class ComSub {
-  name = "com_sub";
+  static name = "com_sub";
   static defaultProps = {
-    fullname: "",
-    now: 0,
-    onDoubleClick: () => {},
-    ob: {},
+    fullname: null,
+    now: null,
+    onDoubleClick: null,
+    ob: null,
   };
 
-  data() {
-    return {
-      gi: "",
-    };
-  }
+  static watch = {
+    fullname(n, o) {
+      console.log("FULLNAME CHANGED", n, o);
+    },
+  };
 
-  created() {
-    console.log("CREATED SUB");
-  }
-
-  mounted() {
+  componentDidMount() {
     this.intev = setInterval(() => {
-      this.props.onDoubleClick("test");
-    }, 2000);
+      this.thro("a-----------");
+    }, 200);
   }
 
-  beforeDestroy() {
+  componentWillUnmount() {
     this.clearInterval(this.intev);
     console.log("DESTROY");
   }
 
+  thro = lo.throttle((a) => {}, 1000);
+
   method1(a, b) {
     console.log("METHOD 1", a, b);
   }
+
+  method1 = (a, b) => {
+    console.log("METHOD 1", a, b, this);
+  };
 
   render() {
     console.log("RENDER CHILD");
@@ -47,4 +49,5 @@ class ComSub {
     );
   }
 }
-export default Vue(ComSub);
+
+export default Convert(ComSub);

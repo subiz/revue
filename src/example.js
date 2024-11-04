@@ -1,16 +1,23 @@
 import lo from "lodash";
-import { Vue, createRef, getRef } from "./lib.js";
+import { css, Convert, createRef, getRef } from "./lib.js";
 import SubCom from "./example_sub.js";
+
 class Com {
-  name = "com";
+  static name = "com";
+  static defaultProps = {
+    fullname: "",
+    now: 0,
+    onDoubleClick: () => {},
+    ob: {},
+  };
   inputRef = createRef(this);
   state = {
     display: false,
     val: "do",
   };
 
-  constructor() {
-  }
+
+  constructor() {}
 
   componentDidMount() {
     setTimeout(() => {
@@ -59,6 +66,7 @@ class Com {
     console.log("RENDER com:", this.onClick);
     return (
       <div>
+        <p></p>
         <h1>22222222 {this.state.val}</h1>
         {this.renderInput()}
         <SubCom
@@ -71,7 +79,20 @@ class Com {
     );
   }
 }
-export default Vue(Com);
+//
+// #2340892384:hover {
+//   background: 'red';
+// }
+
+let style = {
+  item: {
+    background: "white",
+  },
+  item_hover: {
+    background: "red",
+  },
+};
+export default Convert(Com);
 
 /*
 export default {
