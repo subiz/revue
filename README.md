@@ -1,4 +1,6 @@
 # Revue
+[![npm version](https://img.shields.io/npm/v/@subiz/revue.svg?style=flat-square)](https://www.npmjs.org/package/@subiz/revue)
+[![install size](https://img.shields.io/badge/dynamic/json?url=https://packagephobia.com/v2/api.json?p=@subiz/revue&query=$.install.pretty&label=install%20size&style=flat-square)](https://packagephobia.now.sh/result?p=@subiz/revue)
 
 Cross platform component, works both on React Native and web
 
@@ -19,7 +21,7 @@ npm i --save @subiz/revue
 import {Convert} from '@subiz/revue'
 
 class Com {
-	static name = 'com'
+	state = {}
 	// created
 	constructor(props) {
 		super(props)
@@ -35,6 +37,7 @@ class Com {
 		return <div>hello</div>
 	}
 }
+
 export default Convert(Com)
 ```
 
@@ -42,12 +45,13 @@ export default Convert(Com)
 
 ```js
 import {Convert} from '@subiz/revue'
+
 class Com {
-	static name = 'com'
 	static defaultProps = {
 		fullname: null,
 		onDoubleClick: null,
 	}
+
 	state = {
 		display: false,
 		val: 'do',
@@ -68,6 +72,7 @@ class Com {
 		)
 	}
 }
+
 export default Convert(Com)
 ```
 
@@ -97,7 +102,6 @@ export default Convert(Com)
 import {Convert} from '@subiz/revue'
 
 class Com {
-	static name = 'com'
 	static defaultProps = {
 		fullname: null,
 	}
@@ -116,74 +120,6 @@ class Com {
 export default Convert(Com)
 ```
 
-```js
-import {Vue, createRef, getRef} from './lib.js'
-import SubCom from './example_sub.js'
-class Com {
-	name = 'com'
-	inputRef = createRef(this)
-	state = {
-		display: false,
-		val: 'do',
-	}
-
-	constructor() {}
-
-	componentDidMount() {
-		setTimeout(() => {
-			this.setState({display: true})
-		}, 500)
-		setTimeout(() => {
-			this.inputRef.current.focus()
-		}, 1000)
-		console.log('MOUNT', this.inputRef)
-	}
-
-	componentWillUnmount() {
-		console.log('DESTROY')
-	}
-
-	method1(a, b) {
-		console.log('METHOD 1', a, b)
-	}
-
-	renderSub() {
-		return <div>Sub</div>
-	}
-
-	onInput = (e) => {
-		this.setState({val: e.target.value})
-	}
-
-	renderInput() {
-		if (!this.state.display) return null
-		return <input ref={getRef(this.inputRef)} value={this.state.val} onInput={this.onInput} />
-	}
-
-	onClick = (text) => {
-		console.log('CLICKED', text)
-	}
-
-	render(h) {
-		// let h = this.$createElement;
-		console.log('RENDER com:', this.onClick)
-		return (
-			<div>
-				<h1>22222222 {this.state.val}</h1>
-				{this.renderInput()}
-				<SubCom
-					fullname={this.state.val}
-					now={Date.now()}
-					ob={{fullname: this.state.val}}
-					onDoubleClick={this.onClick}
-				/>
-			</div>
-		)
-	}
-}
-export default Vue(Com)
-```
-
 ### Supported
 
 #### Vue2 web
@@ -192,30 +128,35 @@ export default Vue(Com)
 - [x] prop
 - [x] mounted
 - [x] forceUpdate, $forceUpdate
+- [x] $nextTick
 - [x] beforeDestroy
 - [x] created
 - [x] $once
 - [x] $emit
-- [X] data
+- [x] data
 - [x] name
 - [x] watch
 - [x] ref
 - [ ] DOM
+- - [ ] div
+- - [ ] span
+- - [ ] button
 
 #### React native
 
-- [x] state
-- [x] prop
-- [x] mounted
-- [x] forceUpdate, $forceUpdate
-- [x] beforeDestroy
-- [x] created
-- [x] $once
-- [x] $emit
+- [ ] state
+- [ ] prop
+- [ ] mounted
+- [ ] forceUpdate, $forceUpdate
+- [ ] beforeDestroy
+- [ ] $nextTick
+- [ ] created
+- [ ] $once
+- [ ] $emit
 - [ ] data
-- [x] name
-- [x] watch
-- [x] ref
+- [ ] name
+- [ ] watch
+- [ ] ref
 - [ ] DOM
 - - [ ] div
 - - [ ] span
@@ -290,3 +231,7 @@ These following CSS pseudo classes do not work:
 JS
 
 - `click_stop`
+
+## License
+
+[MIT](LICENSE)
