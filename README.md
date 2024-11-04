@@ -21,7 +21,9 @@ import {Convert} from '@subiz/revue'
 class Com {
 	static name = 'com'
 	// created
-	constructor() {}
+	constructor(props) {
+		super(props)
+	}
 
 	// mounted
 	componentDidMount() {}
@@ -184,6 +186,10 @@ export default Vue(Com)
 
 ### Supported
 
+#### Vue2 web
+
+- [x] state
+- [x] prop
 - [x] mounted
 - [x] forceUpdate
 - [x] beforeDestroy
@@ -192,6 +198,28 @@ export default Vue(Com)
 - [x] $emit
 - [ ] data
 - [x] name
+- [x] watch
+- [x] ref
+- [ ] DOM
+
+#### React native
+
+- [x] state
+- [x] prop
+- [x] mounted
+- [x] forceUpdate
+- [x] beforeDestroy
+- [x] created
+- [x] $once
+- [x] $emit
+- [ ] data
+- [x] name
+- [x] watch
+- [x] ref
+- [ ] DOM
+- - [ ] div
+- - [ ] span
+- - [ ] button
 
 ### Limitation
 
