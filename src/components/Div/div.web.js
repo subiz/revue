@@ -2,7 +2,8 @@ import {Convert} from '../../lib.js'
 class Div {
 	static name = 'Div'
 	render() {
-		return <div {...this.props}>{this.props.children}</div>
+		const {children, ...props} = this.props
+		return <div {...props}>{this.props.children}</div>
 	}
 }
 

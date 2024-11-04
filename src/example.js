@@ -61,9 +61,21 @@ class Com {
 		// let h = this.$createElement;
 		console.log('RENDER com:', this.onClick)
 		return (
+			<Div
+				hover_style={{background: 'pink', color: 'yellow'}}
+				onMouseover={(e) => console.log(e)}
+				style={{fontWeight: 'bold'}}
+				data-id='kk'
+			>
+				22222222
+			</Div>
+		)
+		return (
 			<Div>
 				<p></p>
-				<h1>22222222 {this.state.val}</h1>
+				<h1 data-id='kk' style='font-weight: bold'>
+					22222222 {this.state.val}
+				</h1>
 				{this.renderInput()}
 				<SubCom
 					fullname={this.state.val}

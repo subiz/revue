@@ -1,4 +1,5 @@
 # Revue
+
 [![npm version](https://img.shields.io/npm/v/@subiz/revue.svg?style=flat-square)](https://www.npmjs.org/package/@subiz/revue)
 [![install size](https://img.shields.io/badge/dynamic/json?url=https://packagephobia.com/v2/api.json?p=@subiz/revue&query=$.install.pretty&label=install%20size&style=flat-square)](https://packagephobia.now.sh/result?p=@subiz/revue)
 
@@ -120,6 +121,28 @@ class Com {
 export default Convert(Com)
 ```
 
+#### css:hover
+
+```js
+import {Convert} from '@subiz/revue'
+
+class Com {
+	render() {
+		return (
+			<Div
+				style={{color: 'blue}}
+				hover_style={{background: 'pink'}}
+				onMouseover={(e) => console.log(e)}
+			>
+				hello
+			</Div>
+		)
+	}
+}
+
+export default Convert(Com)
+```
+
 ### Supported
 
 #### Vue2 web
@@ -141,6 +164,8 @@ export default Convert(Com)
 - - [ ] div
 - - [ ] span
 - - [ ] button
+- [x] css hover
+- [ ] method
 
 #### React native
 

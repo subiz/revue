@@ -5,7 +5,7 @@ let g_env = ''
 export const getRef = (ref) => ref.toString()
 
 export function createRef(obj) {
-	let id = guidGenerator()
+	let id = randomString()
 	const ref = new Proxy(new String(id), {
 		get(target, prop, receiver) {
 			// if (props === "__v_isRef") return false
@@ -26,10 +26,12 @@ export function Convert(Class) {
 }
 
 export function ConvertWeb(Class) {
-	let props = []
+	let props = ['hover_style']
 	lo.map(Class.defaultProps, (v, k) => {
 		props.push(k)
 	})
+
+	// let comid = randomString()
 
 	let vueobj = {
 		watch: Object.assign({}, Class.watch),
@@ -38,14 +40,30 @@ export function ConvertWeb(Class) {
 		data() {
 			this.__com = new Class()
 			this.__com._base_this = this
+			this._privatestate = {
+				_isHover: false,
+				_onMouseLeave: (e) => {
+					this._privatestate._isHover = false
+					callVueEvent(this._events.mouseleave, e)
+					this.$forceUpdate()
+				},
+				_onMouseOver: (e) => {
+					this._privatestate._isHover = true
+					callVueEvent(this._events.mouseover, e)
+					this.$forceUpdate()
+				},
+			}
 
 			if (typeof this.__com.data === 'function') {
 				this.__com.state = this.__com.data()
 			}
-			return this.__com.state || {}
+
+			this.__com.state = this.__com.state || {}
+			return this.__com.state
 		},
 
 		created() {
+			// this.$attrs['data-clsid'] = comid
 			this.__com.forceUpdate = () => this.$forceUpdate()
 			this.__com.$forceUpdate = () => this.$forceUpdate()
 			if (this.__com.name) this.name = this.__com.name
@@ -61,7 +79,9 @@ export function ConvertWeb(Class) {
 					if (prop == 'children') return vuethis.$slots.default
 					if (prop.length > 2 && prop.startsWith('on')) {
 						let first = prop.charAt(2).toLowerCase()
-						return vuethis._events[first + prop.substr(3)][0]
+						let ev = vuethis._events[first + prop.substr(3)]
+						if (!ev) return ev
+						return ev[0]
 					}
 					// return vuethis._props[prop];
 					return Reflect.get(...arguments)
@@ -91,13 +111,21 @@ export function ConvertWeb(Class) {
 		},
 
 		render() {
-			return this.__com.render(this.$createElement)
+			let vnode = this.__com.render(this.$createElement)
+			if (this.hover_style) {
+				vnode.data.style = vnode.data.style || {}
+				vnode.data.on = vnode.data.on || {}
+				vnode.data.on.mouseleave = this._privatestate._onMouseLeave
+				vnode.data.on.mouseover = this._privatestate._onMouseOver
+				if (this._privatestate._isHover) Object.assign(vnode.data.style, this.hover_style)
+			}
+			return vnode
 		},
 	}
 	return vueobj
 }
 
-function guidGenerator() {
+export function randomString() {
 	var S4 = function () {
 		return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1)
 	}
@@ -116,4 +144,16 @@ export function setEnvMobile() {
 export function isWeb() {
 	return true
 	return g_env == 'web'
+}
+
+function applyStyle(elm, style) {
+	console.log('AAAAAAAAAAAAAAAAA')
+	lo.map(style, (v, k) => {
+		elm.style[v] = k
+	})
+}
+
+function callVueEvent(f, a, b, c, d, e) {
+	if (!f) return
+	return f[0](a, b, c, d, e)
 }
