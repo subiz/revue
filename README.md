@@ -4,6 +4,56 @@ Cross platform component, works both on React Native and web
 * Convert a component to **Vue 2** component
 * Convert a component to **React** component
 
+### Installation
+```sh
+npm i --save @subiz/revue
+```
+
+### Usage
+
+#### ref
+```js
+import { Convert, createRef, getRef } from "@subiz/revue";
+
+class Com {
+  inputRef = createRef(this)
+  componentDidMount() {
+    setInterval(() => {
+	  this.inputRef.current.focus()
+	}, 1000)
+  }
+  render() {
+    return <input ref={getRef(this.inputRef)}/>
+  }
+}
+
+export default Convert(Com);
+```
+
+#### watch
+```js
+import { Convert } from "@subiz/revue";
+
+class Com {
+  static name = "com";
+  static defaultProps = {
+    fullname: null,
+  };
+
+  static watch = {
+    fullname(n, o) {
+      console.log("FULLNAME CHANGED", n, o);
+    },
+  };
+
+  render() {
+    return <div>hello</div>
+  }
+}
+
+export default Convert(Com);
+```
+
 ```js
 import { Vue, createRef, getRef } from "./lib.js";
 import SubCom from "./example_sub.js";
