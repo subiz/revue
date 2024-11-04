@@ -25,7 +25,7 @@ export function Vue(Class) {
     props.push(k);
   });
 
-		let vueobj = {
+  let vueobj = {
     props: props,
     data() {
       com = new Class();

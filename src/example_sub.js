@@ -1,5 +1,5 @@
 import lo from "lodash";
-import { Vue, createRef, getRef } f rom "./convert.js";
+import { Vue, createRef, getRef } from "./lib.js";
 
 class ComSub {
   name = "com_sub";

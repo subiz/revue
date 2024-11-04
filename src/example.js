@@ -1,5 +1,5 @@
 import lo from "lodash";
-import { Vue, createRef, getRef } from "./convert.js";
+import { Vue, createRef, getRef } from "./lib.js";
 import SubCom from "./example_sub.js";
 class Com {
   name = "com";

@@ -1,7 +1,7 @@
 {
-  "name": "@subiz/react2vue",
+  "name": "@subiz/revue",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/lib.js",
   "scripts": {
     "dev": "webpack serve --mode=development",
     "test": "echo \"Error: no test specified\" && exit 1"
